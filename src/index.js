@@ -7,7 +7,7 @@ const reducer = (state = 0, action) => {
         case 'DEC':
             return state - 1;
         case 'RND':
-            return state + action.randomValue;
+            return state + action.value;
         default:
             return state;
     }
@@ -16,20 +16,9 @@ const reducer = (state = 0, action) => {
 const store = createStore(reducer);
 const counter = document.querySelector('#counter');
 
-const inc = () => {
-    store.dispatch({ type: 'INC' });
-};
-const dec = () => {
-    store.dispatch({ type: 'DEC' });
-};
-
-const rnd = () => {
-    const randomValue = Math.floor(Math.random() * 10);
-    store.dispatch({
-        type: 'RND',
-        randomValue
-    });
-};
+const inc = () => ({ type: 'INC' });
+const dec = () => ({ type: 'DEC' });
+const rnd = (value) => ({ type: 'RND', value });
 
 const update = () => {
     counter.textContent = store.getState();
@@ -38,11 +27,18 @@ const update = () => {
 store.subscribe(update)
 document
     .querySelector('.inc')
-    .addEventListener('click', inc);
+    .addEventListener('click', () => {
+        store.dispatch(inc())
+    });
 document
     .querySelector('.dec')
-    .addEventListener('click', dec);
+    .addEventListener('click', () => {
+        store.dispatch(dec())
+    });
 document
     .querySelector('.rnd')
-    .addEventListener('click', rnd);
+    .addEventListener('click', () => {
+        const randomValue = Math.floor(Math.random() * 10);
+        store.dispatch(rnd(randomValue))
+    });
 
