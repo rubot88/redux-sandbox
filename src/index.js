@@ -6,6 +6,8 @@ const reducer = (state = 0, action) => {
             return state + 1;
         case 'DEC':
             return state - 1;
+        case 'RND':
+            return state + action.randomValue;
         default:
             return state;
     }
@@ -18,7 +20,15 @@ const inc = () => {
     store.dispatch({ type: 'INC' });
 };
 const dec = () => {
-    store.dispatch({ type: 'DEC' })
+    store.dispatch({ type: 'DEC' });
+};
+
+const rnd = () => {
+    const randomValue = Math.floor(Math.random() * 10);
+    store.dispatch({
+        type: 'RND',
+        randomValue
+    });
 };
 
 const update = () => {
@@ -32,4 +42,7 @@ document
 document
     .querySelector('.dec')
     .addEventListener('click', dec);
+document
+    .querySelector('.rnd')
+    .addEventListener('click', rnd);
 
